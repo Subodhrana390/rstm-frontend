@@ -9,15 +9,23 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
+import { UseGetMyUserRequest } from "@/api/MyUserApi";
+import { Avatar, AvatarImage } from "./ui/avatar";
 
 const UsernameMenu = () => {
   const { user, logout } = useAuth0();
+  const { currentUser } = UseGetMyUserRequest();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center px-3 font-bold hover:text-orange-500 gap-2">
-        <CircleUserRound className="text-orange-500" />
-        {user?.email}
+        {user ? (
+          <Avatar>
+            <AvatarImage src={user?.picture || currentUser?.imageUrl} />
+          </Avatar>
+        ) : (
+          <CircleUserRound className="text-orange-500" />
+        )}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>

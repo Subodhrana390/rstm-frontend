@@ -1,6 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./page/HomePage";
 import Layout from "./layouts/layout";
+import UserProfilePage from "./page/Dashboard/UserProfilePage";
+import ProtectedRoute from "./auth/ProtectedRoute";
+import CreateProjectPage from "./page/Dashboard/CreateProjectPage";
+import DashboardLayout from "./layouts/DashboardLayout";
+import EditProjectPage from "./page/Dashboard/EditProjectPage";
+import ListOfProjects from "./page/Dashboard/ListOfProjects";
 
 const AppRoutes = () => {
   return (
@@ -14,6 +20,53 @@ const AppRoutes = () => {
         }
       />
       <Route path="*" element={<Navigate to="/" />} />
+      <Route
+        path="/user-profile"
+        element={
+          <Layout>
+            <UserProfilePage />
+          </Layout>
+        }
+      />
+      <Route element={<ProtectedRoute />}>
+        <Route
+          path="/dashboard"
+          element={
+            <DashboardLayout>
+              <ListOfProjects />
+            </DashboardLayout>
+          }
+        />
+      </Route>
+        {/* <Route element={<ProtectedRoute />}>
+      {/* <Route element={<ProtectedRoute />}>
+        <Route
+          path="/dashboard/create"
+          element={
+            <DashboardLayout>
+              <CreateProjectPage />
+            </DashboardLayout>
+          }
+        />
+      </Route> */}
+
+      <Route
+        path="/dashboard/create"
+        element={
+          <DashboardLayout>
+            <CreateProjectPage />
+          </DashboardLayout>
+        }
+      />
+
+      <Route
+        path="/dashboard/edit/:id"
+        element={
+          <DashboardLayout>
+            <EditProjectPage />
+          </DashboardLayout>
+        }
+      />
     </Routes>
   );
 };
