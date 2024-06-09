@@ -110,7 +110,6 @@ const CreateProject = ({ onSave, isLoading }: Props) => {
             </FormItem>
           )}
         />
-        <
 
         {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
