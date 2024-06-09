@@ -38,12 +38,7 @@ const VenueDetail = () => {
               <FormItem>
                 <FormLabel>Starting Time</FormLabel>
                 <FormControl>
-                  <Input
-                    type="time"
-                    {...field}
-                    onChange={(e) => field.onChange(e.target.value)}
-                    className="bg-white"
-                  />
+                  <Input type="time" {...field} className="bg-white" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -59,7 +54,9 @@ const VenueDetail = () => {
                   <Input
                     type="time"
                     {...field}
-                    onChange={(e) => field.onChange(e.target.value)}
+                    onChange={(e) =>
+                      field.onChange(e.target.value.split(" ").join("-"))
+                    }
                     className="bg-white"
                   />
                 </FormControl>

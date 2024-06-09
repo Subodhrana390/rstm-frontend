@@ -16,15 +16,33 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Project } from "@/types";
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { MoreHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const ListOfProjects = () => {
-  const { getProject, isLoading } = UseGetMyProjectRequest();
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  if (isLoading) {
+const ListOfProjects = () => {
+  const { getProject, isLoading: isGetLoading } = UseGetMyProjectRequest();
+
+  if (isGetLoading) {
     return <span>Loading...</span>;
   }
+  const { getAccessTokenSilently } = useAuth0();
+  const deleteMyProjectByIdRequest = async (id?: string) => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await fetch(`${API_BASE_URL}/api/my/project/?id=${id}`, {
+      method: "delete",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete project");
+    }
+  };
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -80,7 +98,13 @@ const ListOfProjects = () => {
                       <Link to={`/dashboard/edit/${project._id}`}>Edit</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link to={`/dashboard/edit/${project._id}`}>Delete</Link>
+                      <Button
+                        onClick={() => {
+                          deleteMyProjectByIdRequest(project._id);
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

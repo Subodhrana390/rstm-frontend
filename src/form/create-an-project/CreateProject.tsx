@@ -14,6 +14,7 @@ import VenueDetail from "./VenueDetail";
 import { Button } from "@/components/ui/button";
 import { LoadingButton } from "@/components/LoadingButtton";
 import { Input } from "@/components/ui/input";
+import { useEffect } from "react";
 
 const formSchema = z
   .object({
@@ -64,6 +65,10 @@ const CreateProject = ({ onSave, isLoading }: Props) => {
       imageFile: undefined,
     },
   });
+
+  useEffect(() => {
+    form.reset();
+  }, [form]);
 
   const onSubmit = (formDataJson: ProjectFormData) => {
     const formData = new FormData();

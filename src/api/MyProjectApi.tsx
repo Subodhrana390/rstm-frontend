@@ -149,3 +149,33 @@ export const UseGetMyProjectByIdRequest = (id?: string) => {
     isLoading,
   };
 };
+
+export const UseDeleteMyProjectByIdRequest = (id?: string) => {
+  const { getAccessTokenSilently } = useAuth0();
+  const deleteMyProjectByIdRequest = async () => {
+    const accessToken = await getAccessTokenSilently();
+    const response = await fetch(`${API_BASE_URL}/api/my/project/?id=${id}`, {
+      method: "delete",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete project");
+    }
+  };
+
+  const { isLoading, isSuccess, error } = useMutation(
+    deleteMyProjectByIdRequest
+  );
+
+  if (isSuccess) {
+    toast.success("Delete successfully");
+  }
+  if (error) {
+    toast.error("error");
+  }
+  return { isLoading };
+};
+

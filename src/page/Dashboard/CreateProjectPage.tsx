@@ -6,10 +6,14 @@ const CreateProjectPage = () => {
   const { createProject, isLoading: isCreatingLoading } =
     UseCreateMyProjectRequest();
 
-  if (isCreatingLoading) {
-    return <LoadingButton />;
-  }
 
+    if (isCreatingLoading) {
+      return (
+        <div className=" h-full w-full flex justify-center items-center">
+          <LoadingButton />
+        </div>
+      );
+    }
   return <CreateProject onSave={createProject} isLoading={isCreatingLoading} />;
 };
 
