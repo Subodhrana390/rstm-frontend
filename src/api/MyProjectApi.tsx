@@ -106,6 +106,7 @@ export const UseGetMyProjectRequest = () => {
     data: getProject,
     isLoading,
     error,
+    isFetched,
   } = useQuery("getMyProject", getMyProjectRequest);
 
   if (error) {
@@ -115,6 +116,7 @@ export const UseGetMyProjectRequest = () => {
   return {
     getProject,
     isLoading,
+    isFetched,
   };
 };
 export const UseGetMyProjectByIdRequest = (id?: string) => {
@@ -150,9 +152,9 @@ export const UseGetMyProjectByIdRequest = (id?: string) => {
   };
 };
 
-export const UseDeleteMyProjectByIdRequest = (id?: string) => {
+export const UseDeleteMyProjectByIdRequest = () => {
   const { getAccessTokenSilently } = useAuth0();
-  const deleteMyProjectByIdRequest = async () => {
+  const deleteMyProjectByIdRequest = async (id?: string) => {
     const accessToken = await getAccessTokenSilently();
     const response = await fetch(`${API_BASE_URL}/api/my/project/?id=${id}`, {
       method: "delete",

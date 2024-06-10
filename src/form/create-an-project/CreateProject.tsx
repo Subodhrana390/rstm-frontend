@@ -16,6 +16,12 @@ import { LoadingButton } from "@/components/LoadingButtton";
 import { Input } from "@/components/ui/input";
 import { useEffect } from "react";
 
+const fileArraySchema = z.array(
+  z
+    .instanceof(File, { message: "Each element must be a File instance" })
+    .optional()
+);
+
 const formSchema = z
   .object({
     title: z.string({ required_error: "Title is required" }),
@@ -40,11 +46,17 @@ const formSchema = z
       }),
     coverPageUrl: z.string().optional(),
     imageFile: z.instanceof(File, { message: "image is required" }).optional(),
+    // imageUrl: z.array(z.string()),
+    // imageFiles: fileArraySchema.optional(),
   })
-  .refine((data) => data.coverPageUrl || data.imageFile, {
-    message: "Either image URL or image File must be provided",
-    path: ["imageFile"],
-  });
+  .refine(
+    (data) => data.coverPageUrl ||data.imageFile,
+    {
+      message: "Either image URL or at least one image File must be provided",
+      path: ["imageFiles"],
+    }
+  );
+
 type ProjectFormData = z.infer<typeof formSchema>;
 
 type Props = {
@@ -62,7 +74,7 @@ const CreateProject = ({ onSave, isLoading }: Props) => {
       eventDate: "",
       slug: "",
       coverPageUrl: "",
-      imageFile: undefined,
+      // imageFiles: [],
     },
   });
 
@@ -83,6 +95,15 @@ const CreateProject = ({ onSave, isLoading }: Props) => {
     if (formDataJson.imageFile) {
       formData.append("imageFile", formDataJson.imageFile);
     }
+
+    // if (formDataJson.imageFiles && formDataJson.imageFiles.length > 0) {
+    //   formDataJson.imageFiles.forEach((file, index) => {
+    //     formData.append(`imageFiles[${index}]`, file);
+    //   });
+    // } else if (formDataJson.imageFiles) {
+    //   formData.append("imageFiles[0]", formDataJson.imageFiles);
+    // }
+
     onSave(formData);
   };
   return (

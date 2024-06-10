@@ -7,6 +7,7 @@ import CreateProjectPage from "./page/Dashboard/CreateProjectPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import EditProjectPage from "./page/Dashboard/EditProjectPage";
 import ListOfProjects from "./page/Dashboard/ListOfProjects";
+import UserRoute from "./auth/UserRoute";
 
 const AppRoutes = () => {
   return (
@@ -20,14 +21,18 @@ const AppRoutes = () => {
         }
       />
       <Route path="*" element={<Navigate to="/" />} />
-      <Route
-        path="/user-profile"
-        element={
-          <Layout>
-            <UserProfilePage />
-          </Layout>
-        }
-      />
+
+      <Route element={<UserRoute />}>
+        <Route
+          path="/user-profile"
+          element={
+            <Layout>
+              <UserProfilePage />
+            </Layout>
+          }
+        />
+      </Route>
+
       <Route element={<ProtectedRoute />}>
         <Route
           path="/dashboard"
@@ -38,8 +43,8 @@ const AppRoutes = () => {
           }
         />
       </Route>
-        {/* <Route element={<ProtectedRoute />}>
-      {/* <Route element={<ProtectedRoute />}>
+
+      <Route element={<ProtectedRoute />}>
         <Route
           path="/dashboard/create"
           element={
@@ -48,25 +53,18 @@ const AppRoutes = () => {
             </DashboardLayout>
           }
         />
-      </Route> */}
+      </Route>
 
-      <Route
-        path="/dashboard/create"
-        element={
-          <DashboardLayout>
-            <CreateProjectPage />
-          </DashboardLayout>
-        }
-      />
-
-      <Route
-        path="/dashboard/edit/:id"
-        element={
-          <DashboardLayout>
-            <EditProjectPage />
-          </DashboardLayout>
-        }
-      />
+      <Route element={<ProtectedRoute />}>
+        <Route
+          path="/dashboard/edit/:id"
+          element={
+            <DashboardLayout>
+              <EditProjectPage />
+            </DashboardLayout>
+          }
+        ></Route>
+      </Route>
     </Routes>
   );
 };
