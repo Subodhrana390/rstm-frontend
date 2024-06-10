@@ -16,11 +16,11 @@ import { LoadingButton } from "@/components/LoadingButtton";
 import { Input } from "@/components/ui/input";
 import { useEffect } from "react";
 
-const fileArraySchema = z.array(
-  z
-    .instanceof(File, { message: "Each element must be a File instance" })
-    .optional()
-);
+// const fileArraySchema = z.array(
+//   z
+//     .instanceof(File, { message: "Each element must be a File instance" })
+//     .optional()
+// );
 
 const formSchema = z
   .object({
