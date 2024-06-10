@@ -79,8 +79,18 @@ const CreateProject = ({ onSave, isLoading }: Props) => {
   });
 
   useEffect(() => {
-    form.reset();
-  }, [form]);
+    form.reset({
+      title: "",
+      shortdesc: "",
+      desc: "",
+      venue: "",
+      eventDate: "",
+      startingTime: "",
+      endingTime: "",
+      slug: "",
+      coverPageUrl: "",
+    });
+  }, [form, isLoading]);
 
   const onSubmit = (formDataJson: ProjectFormData) => {
     const formData = new FormData();

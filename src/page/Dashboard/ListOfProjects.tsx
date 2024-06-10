@@ -29,6 +29,7 @@ const ListOfProjects = () => {
   const [data, setData] = useState([]);
 
   const getMyProjectRequest = async () => {
+    setLoading(true);
     const accessToken = await getAccessTokenSilently();
     const response = await fetch(`${API_BASE_URL}/api/my/project/`, {
       method: "GET",
@@ -42,6 +43,7 @@ const ListOfProjects = () => {
     }
     let jsonData = await response.json();
     setData(jsonData.data);
+    setLoading(false);
   };
 
   const deleteMyProjectByIdRequest = async (id?: string) => {
@@ -54,6 +56,7 @@ const ListOfProjects = () => {
     });
 
     if (!response.ok) {
+      toast.success("Failed to delete project");
       throw new Error("Failed to delete project");
     } else {
       toast.success("Deleted Successfullly");
@@ -63,7 +66,7 @@ const ListOfProjects = () => {
   useEffect(() => {
     getMyProjectRequest();
     setLoading(false);
-  }, [Loading, data]);
+  }, [Loading]);
 
   if (Loading) {
     return <span>Loading...</span>;
