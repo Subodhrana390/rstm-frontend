@@ -49,7 +49,7 @@ const ListOfProjects = () => {
   const deleteMyProjectByIdRequest = async (id?: string) => {
     const accessToken = await getAccessTokenSilently();
     const response = await fetch(`${API_BASE_URL}/api/my/project/?id=${id}`, {
-      method: "delete",
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
