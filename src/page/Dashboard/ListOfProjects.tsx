@@ -56,7 +56,7 @@ const ListOfProjects = () => {
     });
 
     if (!response.ok) {
-      toast.success("Failed to delete project");
+      toast.error("Failed to delete project");
       throw new Error("Failed to delete project");
     } else {
       toast.success("Deleted Successfullly");
